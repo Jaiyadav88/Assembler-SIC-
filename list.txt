@@ -1,0 +1,52 @@
+Line  Loc    Block  Source Statement          Object Code 
+-----------------------------------------------------------------------
+1     1000   0      COPY START                            
+2     1000   0      FIRST STL RETADR          17202D      
+3     1003   0      CLOOP JSUB RDREC                      
+4     1006   0      LDA LENGTH                03202A      
+5     1009   0      COMP ZERO                 2B2021      
+6     100C   0      JEQ ENDFIL                332003      
+7     100F   0      JSUB WRREC                            
+8     1012   0      ENDFIL LDA EOF            032012      
+9     1015   0      STA BUFFER                0F201E      
+10    1018   0      LDA THREE                 03200F      
+11    101B   0      STA LENGTH                0F2015      
+12    101E   0      JSUB WRREC                            
+13    1021   0      LDL RETADR                0B200C      
+14    1024   0      RSUB                      4F0000      
+15    1027   0      EOF BYTE C'EOF'                       
+16    102A   0      THREE WORD 3                          
+17    102D   0      ZERO WORD 0                           
+18    1030   0      RESW 1                                
+19    1033   0      RESW 1                                
+20    1036   0      RESB 4096                             
+21                                                        
+22                  .SUBROUTINE TO READ RECORD INTO BUFFER             
+23                                                        
+24    2036   0      RDREC LDX ZERO                        
+25    2039   0      LDA ZERO                              
+26    203C   0      RLOOP TD INPUT            E3201B      
+27    203F   0      JEQ RLOOP                 332FFA      
+28    2042   0      RD INPUT                  DB2015      
+29    2045   0      COMP ZERO                             
+30    2048   0      JEQ EXIT                  332009      
+31    204B   0      STCH BUFFER,X                         
+32    204E   0      TIX MAXLEN                2F200A      
+33    2051   0      JLT RLOOP                 3B2FE8      
+34    2054   0      EXIT STX LENGTH                       
+35    2057   0      RSUB                      4F0000      
+36    205A   0      INPUT BYTE X'F1'                      
+37    205B   0      MAXLEN WORD 4096                      
+38                                                        
+39                  .SUBROUTINE TO WRITE RECORD FROM BUFFER             
+40                                                        
+41    205E   0      WRREC LDX ZERO                        
+42    2061   0      WLOOP TD OUTPUT           E32012      
+43    2064   0      JEQ WLOOP                 332FFA      
+44    2067   0      LDCH BUFFER,X                         
+45    206A   0      WD OUTPUT                 DF2009      
+46    206D   0      TIX LENGTH                            
+47    2070   0      JLT WLOOP                 3B2FEE      
+48    2073   0      RSUB                      4F0000      
+49    2076   0      OUTPUT BYTE X'O5'                     
+50                   END                                  
